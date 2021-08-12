@@ -1,0 +1,19 @@
+{
+    "name": "osenco/kcb",
+    "description": "KCB Buni API PHP SDK",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Osen\\Kcb\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Osen Concepts",
+            "email": "hi@osen.co.ke"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
