@@ -2,7 +2,7 @@
 
 namespace Osen\Kcb;
 
-class B2C extends Bank
+class Forex extends Bank
 {
     function send()
     {

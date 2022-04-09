@@ -1,13 +1,20 @@
 <?php
+
 namespace Osen\Kcb;
+
+use GuzzleHttp\Client;
 
 class Bank
 {
     public $config;
+    public Client $client;
 
     public function __construct($config)
     {
         $this->config = $config;
+        $this->client = new Client(array(
+            'base_uri' => $config['env'] == 'sandbox' ? 'https://uat.buni.kcbgroup.com/' : 'https://buni.kcbgroup.com/',
+        ));
     }
 
     public function notifyBiller()
@@ -20,21 +27,52 @@ class Bank
         return $this;
     }
 
-    function post($url, array $data) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json'
-        ));
-        $result = curl_exec($ch);
-        curl_close($ch);
-        return $result;
+    function remotePost($url, $data): mixed
+    {
+        $response = $this->client->request('POST', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->config['token'],
+            ],
+            'json' => $data,
+        ]);
 
+        return json_decode($response->getBody()->getContents());
     }
 
+    function remoteGet($url): mixed
+    {
+        $response = $this->client->request('GET', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->config['token'],
+            ],
+        ]);
+
+        return json_decode($response->getBody()->getContents());
+    }
+    function remotePut($url, $data): mixed
+    {
+        $response = $this->client->request('PUT', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->config['token'],
+            ],
+            'json' => $data,
+        ]);
+
+        return json_decode($response->getBody()->getContents());
+    }
+
+    function remoteDelete($url): mixed
+    {
+        $response = $this->client->request('DELETE', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->config['token'],
+            ],
+        ]);
+
+        return json_decode($response->getBody()->getContents());
+    }
 }
