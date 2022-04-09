@@ -16,7 +16,7 @@ composer require osenco/kcb
 ## Instantiation
 
 ```php
-$kcb = new Osen\Kcb\Bank(array(
+$kcb = new Osen\Kcb\Buni(array(
     'token' => ''
 ));
 ```

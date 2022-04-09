@@ -2,7 +2,7 @@
 
 namespace Osen\Kcb;
 
-class Forex extends Bank
+class Forex extends Buni
 {
     function check($fromCurrency, $toCurrency, $amount)
     {

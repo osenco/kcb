@@ -4,7 +4,7 @@ namespace Osen\Kcb;
 
 use GuzzleHttp\Client;
 
-class Bank
+class Buni
 {
     /**
      * @var array $client
