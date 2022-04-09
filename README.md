@@ -27,4 +27,8 @@ $kcb = new Osen\Kcb\Buni(array(
 
 ```php
 $rate = $kcb->forex()->check('USD', 'EUR', 100);
+
+// parse response
+$json = $rate->json()
+$object = $rate->object()
 ```

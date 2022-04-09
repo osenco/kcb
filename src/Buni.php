@@ -1,8 +1,17 @@
 <?php
 
+/**
+ * @package Buni
+ * @subpackage Main Buni class
+ * @author Osen Concepts <hi@osen.co.ke>
+ * @version 1.0.0
+ * @license MIT
+ */
+
 namespace Osen\Kcb;
 
 use GuzzleHttp\Client;
+use Osen\Kcb\Buni\Responses\Response;
 
 class Buni
 {
@@ -16,25 +25,22 @@ class Buni
      */
     public $client;
 
+    /**
+     * @var array $config
+     */
     public function __construct($config)
     {
-        $this->config = $config;
+        $this->config = array_merge(array(
+            'token' => '',
+            'env'   => 'sandbox',
+        ), $config);
+
         $this->client = new Client(array(
             'base_uri' => $config['env'] == 'sandbox' ? 'https://uat.buni.kcbgroup.com/' : 'https://buni.kcbgroup.com/',
         ));
     }
 
-    public function notifyBiller()
-    {
-        return $this;
-    }
-
-    public function validateBiller()
-    {
-        return $this;
-    }
-
-    public function remotePost($url, $data): mixed
+    public function remotePost($url, $data): Response
     {
         $response = $this->client->request('POST', $url, [
             'headers' => [
@@ -44,10 +50,10 @@ class Buni
             'json'    => $data,
         ]);
 
-        return json_decode($response->getBody()->getContents());
+        return new Response($response);
     }
 
-    public function remoteGet($url): mixed
+    public function remoteGet($url): Response
     {
         $response = $this->client->request('GET', $url, [
             'headers' => [
@@ -56,9 +62,9 @@ class Buni
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents());
+        return new Response($response);
     }
-    public function remotePut($url, $data): mixed
+    public function remotePut($url, $data): Response
     {
         $response = $this->client->request('PUT', $url, [
             'headers' => [
@@ -68,10 +74,10 @@ class Buni
             'json'    => $data,
         ]);
 
-        return json_decode($response->getBody()->getContents());
+        return new Response($response);
     }
 
-    public function remoteDelete($url): mixed
+    public function remoteDelete($url): Response
     {
         $response = $this->client->request('DELETE', $url, [
             'headers' => [
@@ -80,7 +86,7 @@ class Buni
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents());
+        return new Response($response);
     }
 
     public function b2c(): B2C
