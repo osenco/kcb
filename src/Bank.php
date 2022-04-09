@@ -6,8 +6,15 @@ use GuzzleHttp\Client;
 
 class Bank
 {
+    /**
+     * @var array $client
+     */
     public $config;
-    public Client $client;
+
+    /**
+     * @var Client $client
+     */
+    public $client;
 
     public function __construct($config)
     {
@@ -27,52 +34,57 @@ class Bank
         return $this;
     }
 
-    function remotePost($url, $data): mixed
+    public function remotePost($url, $data): mixed
     {
         $response = $this->client->request('POST', $url, [
             'headers' => [
-                'Content-Type' => 'application/json',
+                'Content-Type'  => 'application/json',
                 'Authorization' => 'Bearer ' . $this->config['token'],
             ],
-            'json' => $data,
+            'json'    => $data,
         ]);
 
         return json_decode($response->getBody()->getContents());
     }
 
-    function remoteGet($url): mixed
+    public function remoteGet($url): mixed
     {
         $response = $this->client->request('GET', $url, [
             'headers' => [
-                'Content-Type' => 'application/json',
+                'Content-Type'  => 'application/json',
                 'Authorization' => 'Bearer ' . $this->config['token'],
             ],
         ]);
 
         return json_decode($response->getBody()->getContents());
     }
-    function remotePut($url, $data): mixed
+    public function remotePut($url, $data): mixed
     {
         $response = $this->client->request('PUT', $url, [
             'headers' => [
-                'Content-Type' => 'application/json',
+                'Content-Type'  => 'application/json',
                 'Authorization' => 'Bearer ' . $this->config['token'],
             ],
-            'json' => $data,
+            'json'    => $data,
         ]);
 
         return json_decode($response->getBody()->getContents());
     }
 
-    function remoteDelete($url): mixed
+    public function remoteDelete($url): mixed
     {
         $response = $this->client->request('DELETE', $url, [
             'headers' => [
-                'Content-Type' => 'application/json',
+                'Content-Type'  => 'application/json',
                 'Authorization' => 'Bearer ' . $this->config['token'],
             ],
         ]);
 
         return json_decode($response->getBody()->getContents());
+    }
+
+    public function b2c(): B2C
+    {
+        return new B2C($this->config);
     }
 }
