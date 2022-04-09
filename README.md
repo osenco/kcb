@@ -2,10 +2,12 @@
 
 ## Table of contents
 
--[Installation](#installation)
--[Instantiation](#instantiation)
-    -[Usage](#usage)
-       -[Check Forex rate](#check-forex-rate)
+* [Installation](#installation)
+* [Instantiation](#instantiation)
+  * [Usage](#usage)
+    * [Check Forex rate](#check-forex-rate)
+  * [Contributing](#contributing)
+* [License](#license)
 
 ## Installation
 
