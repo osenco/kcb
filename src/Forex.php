@@ -4,30 +4,52 @@ namespace Osen\Kcb;
 
 class Forex extends Buni
 {
+    /**
+     * @var string $fromCurrency
+     */
     protected $fromCurrency = 'USD';
+
+    /**
+     * @var string $toCurrency
+     */
     protected $toCurrency = 'EUR';
 
-    function exchange($amount, $fromCurrency = null, $toCurrency = null)
+    /**
+     * @var int $amount
+     * @var string $fromCurrency
+     * @var string $toCurrency
+     * 
+     * @return Osen\Kcb\Responses\Response
+     */
+    function exchange(int $amount, string $fromCurrency = null, string $toCurrency = null)
     {
-        if (\is_null($fromCurrency)) {
+        if (is_null($fromCurrency)) {
             $fromCurrency = $this->fromCurrency;
         }
 
-        if (\is_null($toCurrency)) {
+        if (is_null($toCurrency)) {
             $toCurrency = $this->toCurrency;
         }
 
-        return $this->remoteGet('forex/1.0.0/' . $fromCurrency . '/' . $toCurrency . '/' . $amount);
+        return $this->remoteGet("forex/1.0.0/{$fromCurrency}/{$toCurrency}/{$amount}");
     }
 
-    function from($fromCurrency)
+    /**
+     * @param string $fromCurrency
+     * @return Forex
+     */
+    function from(string $fromCurrency): Forex
     {
         $this->fromCurrency = $fromCurrency;
 
         return $this;
     }
 
-    function to($toCurrency)
+    /**
+     * @param string $toCurrency
+     * @return Forex
+     */
+    function to(string $toCurrency): Forex
     {
         $this->toCurrency = $toCurrency;
 

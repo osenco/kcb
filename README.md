@@ -18,8 +18,11 @@ composer require osenco/kcb
 ## Instantiation
 
 ```php
-$kcb = new Osen\Kcb\Buni(array(
-    'token' => ''
+use Osen\Kcb\Buni;
+
+$kcb = new Buni(array(
+    'token' => '',
+    'env'   => 'sandbox',
 ));
 ```
 
@@ -31,9 +34,7 @@ $kcb = new Osen\Kcb\Buni(array(
 $rate = $kcb->forex()->exchange(100, 'EUR', 'USD');
 
 // OR
-
 $rate = $kcb->forex()->from('EUR')->to('USD')->exchange(100);
-
 
 // parse response
 $json = $rate->json();

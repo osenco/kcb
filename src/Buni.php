@@ -11,7 +11,7 @@
 namespace Osen\Kcb;
 
 use GuzzleHttp\Client;
-use Osen\Kcb\Buni\Responses\Response;
+use Osen\Kcb\Responses\Response;
 
 class Buni
 {
@@ -28,7 +28,7 @@ class Buni
     /**
      * @var array $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $this->config = array_merge(array(
             'token' => '',
@@ -40,7 +40,13 @@ class Buni
         ));
     }
 
-    public function remotePost($url, $data): Response
+    /**
+     * @param string $url
+     * @param array $data
+     * 
+     * @return Response
+     */
+    public function remotePost(string $url, array $data): Response
     {
         $response = $this->client->request('POST', $url, [
             'headers' => [
@@ -53,7 +59,13 @@ class Buni
         return new Response($response);
     }
 
-    public function remoteGet($url): Response
+    /**
+     * @param string $url
+     * @param array $query
+     * 
+     * @return Response
+     */
+    public function remoteGet(string $url, array $query = []): Response
     {
         $response = $this->client->request('GET', $url, [
             'headers' => [
@@ -64,7 +76,14 @@ class Buni
 
         return new Response($response);
     }
-    public function remotePut($url, $data): Response
+
+    /**
+     * @param string $url
+     * @param array $data
+     * 
+     * @return Response
+     */
+    public function remotePut(string $url, array $data): Response
     {
         $response = $this->client->request('PUT', $url, [
             'headers' => [
@@ -77,6 +96,11 @@ class Buni
         return new Response($response);
     }
 
+    /**
+     * @param string $url
+     * 
+     * @return Response
+     */
     public function remoteDelete($url): Response
     {
         $response = $this->client->request('DELETE', $url, [
