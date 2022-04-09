@@ -6,38 +6,64 @@ use Psr\Http\Message\ResponseInterface;
 
 class Response
 {
+    /**
+     * @var ResponseInterface $response
+     */
+    protected $response;
 
-    function __construct(ResponseInterface $response)
+    /**
+     * @var ResponseInterface $response
+     */
+    public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
     }
 
-    function getStatusCode()
+    /**
+     * @return int HTTP status code
+     */
+    public function getStatusCode()
     {
         return $this->response->getStatusCode();
     }
 
-    function getBody()
+    /**
+     * @return mixed|string
+     */
+    public function getBody()
     {
         return $this->response->getBody();
     }
 
-    function getHeaders()
+    /**
+     * @return array
+     */
+    public function getHeaders()
     {
         return $this->response->getHeaders();
     }
 
-    function json()
+    /**
+     * @return array
+     */
+    public function json(): array
     {
         return json_decode($this->response->getBody()->getContents(), true);
     }
 
-    function object()
+    /**
+     * @return object
+     */
+    public function object(): object
     {
         return json_decode($this->response->getBody()->getContents());
     }
 
-    function throw(): Response
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function throw(): Response
     {
         $json = $this->json();
 

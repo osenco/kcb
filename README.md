@@ -20,7 +20,7 @@ composer require osenco/kcb
 ```php
 use Osen\Kcb\Buni;
 
-$kcb = new Buni(array(
+$buni = new Buni(array(
     'token' => '',
     'env'   => 'sandbox',
 ));
@@ -31,10 +31,10 @@ $kcb = new Buni(array(
 ### Check forex rate
 
 ```php
-$rate = $kcb->forex()->exchange(100, 'EUR', 'USD');
+$rate = $buni->forex()->exchange(100, 'EUR', 'USD');
 
 // OR
-$rate = $kcb->forex()->from('EUR')->to('USD')->exchange(100);
+$rate = $buni->forex()->from('EUR')->to('USD')->exchange(100);
 
 // parse response
 $json = $rate->json();

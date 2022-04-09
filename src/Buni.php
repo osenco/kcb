@@ -31,8 +31,9 @@ class Buni
     public function __construct(array $config)
     {
         $this->config = array_merge(array(
-            'token' => '',
-            'env'   => 'sandbox',
+            'token'  => '',
+            'env'    => 'sandbox',
+            'verify' => false,
         ), $config);
 
         $this->client = new Client(array(
@@ -43,7 +44,7 @@ class Buni
     /**
      * @param string $url
      * @param array $data
-     * 
+     *
      * @return Response
      */
     public function remotePost(string $url, array $data): Response
@@ -52,6 +53,7 @@ class Buni
             'headers' => [
                 'Content-Type'  => 'application/json',
                 'Authorization' => 'Bearer ' . $this->config['token'],
+                'verify'        => false,
             ],
             'json'    => $data,
         ]);
@@ -62,7 +64,7 @@ class Buni
     /**
      * @param string $url
      * @param array $query
-     * 
+     *
      * @return Response
      */
     public function remoteGet(string $url, array $query = []): Response
@@ -80,7 +82,7 @@ class Buni
     /**
      * @param string $url
      * @param array $data
-     * 
+     *
      * @return Response
      */
     public function remotePut(string $url, array $data): Response
@@ -98,7 +100,7 @@ class Buni
 
     /**
      * @param string $url
-     * 
+     *
      * @return Response
      */
     public function remoteDelete($url): Response
@@ -116,5 +118,15 @@ class Buni
     public function b2c(): B2C
     {
         return new B2C($this->config);
+    }
+
+    public function b2b(): B2B
+    {
+        return new B2B($this->config);
+    }
+
+    public function forex(): Forex
+    {
+        return new Forex($this->config);
     }
 }
