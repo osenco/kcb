@@ -1,5 +1,12 @@
 # KCB Buni API PHP SDK
 
+## Table of contents
+
+- [Installation](#installation)
+- [Instantiation](#instantiation)
+-- [Usage](#usage)
+--- [Check Forex rate](#check-forex-rate)
+
 ## Installation
 
 ```cmd
@@ -14,7 +21,7 @@ $kcb = new Osen\Kcb\Bank(array(
 ));
 ```
 
-## USage
+## Usage
 
 ### Check forex rate
 
