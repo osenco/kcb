@@ -4,8 +4,8 @@ namespace Osen\Kcb;
 
 class B2B extends Buni
 {
-    function send()
+    function pay()
     {
-        return $this->remotePost('businesTransfers/b2b/1.0.0', array());
+        return $this->client->post('businesTransfers/b2b/1.0.0', array());
     }
 }

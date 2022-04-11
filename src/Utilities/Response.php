@@ -1,6 +1,6 @@
 <?php
 
-namespace Osen\Kcb\Responses;
+namespace Osen\Kcb\Utilities;
 
 use Psr\Http\Message\ResponseInterface;
 

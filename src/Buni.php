@@ -11,7 +11,7 @@
 namespace Osen\Kcb;
 
 use GuzzleHttp\Client;
-use Osen\Kcb\Responses\Response;
+use Osen\Kcb\Utilities\Request;
 
 class Buni
 {
@@ -21,7 +21,7 @@ class Buni
     public $config;
 
     /**
-     * @var Client $client
+     * @var Request $client
      */
     public $client;
 
@@ -32,87 +32,23 @@ class Buni
     {
         $this->config = array_merge(array(
             'token'  => '',
-            'env'    => 'sandbox',
-            'verify' => false,
+            'env'    => 'sandbox'
         ), $config);
 
-        $this->client = new Client(array(
+        $this->client = new Request(new Client(array(
             'base_uri' => $config['env'] == 'sandbox' ? 'https://uat.buni.kcbgroup.com/' : 'https://buni.kcbgroup.com/',
-        ));
+            'verify'        => false,
+        )));
     }
 
-    /**
-     * @param string $url
-     * @param array $data
-     *
-     * @return Response
-     */
-    public function remotePost(string $url, array $data): Response
+    function account(): Account
     {
-        $response = $this->client->request('POST', $url, [
-            'headers' => [
-                'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer ' . $this->config['token'],
-                'verify'        => false,
-            ],
-            'json'    => $data,
-        ]);
-
-        return new Response($response);
+        return new Account($this->config);
     }
 
-    /**
-     * @param string $url
-     * @param array $query
-     *
-     * @return Response
-     */
-    public function remoteGet(string $url, array $query = []): Response
+    function agent(): Agent
     {
-        $response = $this->client->request('GET', $url, [
-            'headers' => [
-                'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer ' . $this->config['token'],
-            ],
-        ]);
-
-        return new Response($response);
-    }
-
-    /**
-     * @param string $url
-     * @param array $data
-     *
-     * @return Response
-     */
-    public function remotePut(string $url, array $data): Response
-    {
-        $response = $this->client->request('PUT', $url, [
-            'headers' => [
-                'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer ' . $this->config['token'],
-            ],
-            'json'    => $data,
-        ]);
-
-        return new Response($response);
-    }
-
-    /**
-     * @param string $url
-     *
-     * @return Response
-     */
-    public function remoteDelete($url): Response
-    {
-        $response = $this->client->request('DELETE', $url, [
-            'headers' => [
-                'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer ' . $this->config['token'],
-            ],
-        ]);
-
-        return new Response($response);
+        return new Agent($this->config);
     }
 
     public function b2c(): B2C
@@ -125,8 +61,23 @@ class Buni
         return new B2B($this->config);
     }
 
+    function customer(): Customer
+    {
+        return new Customer($this->config);
+    }
+
     public function forex(): Forex
     {
         return new Forex($this->config);
+    }
+
+    function transaction(): Transaction
+    {
+        return new Transaction($this->config);
+    }
+
+    function vooma(): Vooma
+    {
+        return new Vooma($this->config);
     }
 }

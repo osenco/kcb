@@ -18,10 +18,10 @@ class Forex extends Buni
      * @var int $amount
      * @var string $fromCurrency
      * @var string $toCurrency
-     * 
-     * @return Osen\Kcb\Responses\Response
+     *
+     * @return Osen\Kcb\Ulities\Response
      */
-    function exchange(int $amount, string $fromCurrency = null, string $toCurrency = null)
+    public function exchange(int $amount, string $fromCurrency = null, string $toCurrency = null)
     {
         if (is_null($fromCurrency)) {
             $fromCurrency = $this->fromCurrency;
@@ -31,14 +31,67 @@ class Forex extends Buni
             $toCurrency = $this->toCurrency;
         }
 
-        return $this->remoteGet("forex/1.0.0/{$fromCurrency}/{$toCurrency}/{$amount}");
+        return $this->client->post("remintance-currency-rates/1.0.0/api/CurrencyRates", array(
+            "header"         => array(
+                "messageID"           => "1643041286",
+                "featureCode"         => "101",
+                "featureName"         => "FinancialInquiries",
+                "serviceCode"         => "1005",
+                "serviceName"         => "CurrencyRates",
+                "serviceSubCategory"  => "ACCOUNT",
+                "minorServiceVersion" => "1.0",
+                "channelCode"         => "206",
+                "channelName"         => "ibank",
+                "routeCode"           => "001",
+                "timestamp"           => "1643041286",
+                "serviceMode"         => "sync",
+                "subscribeEvents"     => "1",
+                "callbackURL"         => "string",
+            ),
+            "requestPayload" => array(
+                "multiCurrency" => "true",
+                "currencyCode"  => $fromCurrency,
+                "companyCode"   => "KE0010001",
+            ),
+        ));
+    }
+
+    public function rates(string $fromCurrency = null)
+    {
+        if (is_null($fromCurrency)) {
+            $fromCurrency = $this->fromCurrency;
+        }
+
+        return $this->client->asJson()->post("api/CurrencyRates", array(
+            "header"         => array(
+                "messageID"           => "1643041286",
+                "featureCode"         => "101",
+                "featureName"         => "FinancialInquiries",
+                "serviceCode"         => "1005",
+                "serviceName"         => "CurrencyRates",
+                "serviceSubCategory"  => "ACCOUNT",
+                "minorServiceVersion" => "1.0",
+                "channelCode"         => "206",
+                "channelName"         => "ibank",
+                "routeCode"           => "001",
+                "timestamp"           => "1643041286",
+                "serviceMode"         => "sync",
+                "subscribeEvents"     => "1",
+                "callbackURL"         => "string",
+            ),
+            "requestPayload" => array(
+                "multiCurrency" => "true",
+                "currencyCode"  => $fromCurrency,
+                "companyCode"   => "KE0010001",
+            ),
+        ));
     }
 
     /**
      * @param string $fromCurrency
      * @return Forex
      */
-    function from(string $fromCurrency): Forex
+    public function from(string $fromCurrency): Forex
     {
         $this->fromCurrency = $fromCurrency;
 
@@ -49,7 +102,7 @@ class Forex extends Buni
      * @param string $toCurrency
      * @return Forex
      */
-    function to(string $toCurrency): Forex
+    public function to(string $toCurrency): Forex
     {
         $this->toCurrency = $toCurrency;
 

@@ -4,9 +4,9 @@ namespace Osen\Kcb;
 
 use Osen\Kcb\Utilities\Response;
 
-class B2C extends Buni
+class Customer extends Buni
 {
-    function pay(): Response
+    public function query(): Response
     {
         return $this->client->asJson()->post('', array());
     }
